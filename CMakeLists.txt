@@ -356,7 +356,7 @@ if(LEVELDB_BUILD_TESTS)
   leveldb_test("util/no_destructor_test.cc")
 
   if(NOT BUILD_SHARED_LIBS)
-    leveldb_test("test/halibobo.cc")   # 加入这句
+    #leveldb_test("test/halibobo.cc")   # 加入这句
     leveldb_test("db/autocompact_test.cc")
     leveldb_test("db/corruption_test.cc")
     leveldb_test("db/db_test.cc")
