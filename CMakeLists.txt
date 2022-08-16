@@ -72,6 +72,15 @@ else(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wstrict-prototypes")
   endif(NOT CMAKE_C_FLAGS MATCHES "-Wstrict-prototypes")
 
+  # Use -Werror for clang only. https://github.com/google/snappy/pull/153
+  if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    EXECUTE_PROCESS( COMMAND ${CMAKE_CXX_COMPILER} --version OUTPUT_VARIABLE clang_full_version_string )
+    string (REGEX REPLACE ".*clang version ([0-9]+\\.[0-9]+).*" "\\1" CLANG_VERSION_STRING ${clang_full_version_string})
+    if(CLANG_VERSION_STRING GREATER_EQUAL 13.1)
+      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w")
+    endif(CLANG_VERSION_STRING GREATER_EQUAL 13.1)
+  endif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+
   # Disable C++ exceptions.
   string(REGEX REPLACE "-fexceptions" "" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-exceptions")

@@ -6,3 +6,10 @@
 # Build directory.
 build/
 out/
+.idea
+cmake-build-debug
+cmake-build-release
+*.o
+*.mk
+libleveldb.a
+third_party.zip
