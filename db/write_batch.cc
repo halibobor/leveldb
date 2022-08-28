@@ -108,8 +108,8 @@ void WriteBatch::Delete(const Slice& key) {
   PutLengthPrefixedSlice(&rep_, key);
 }
 
-void WriteBatch::Append(const WriteBatch& source) {
-  WriteBatchInternal::Append(this, &source);
+void WriteBatch::Append(const WriteBatch* source) {
+  WriteBatchInternal::Append(this, source);
 }
 
 namespace {

@@ -3,6 +3,7 @@
 #include <string>
 #include <chrono>
 #include "leveldb/db.h"
+#include "leveldb/write_batch.h"
 
 int main() {
   leveldb::DB *db;
@@ -35,5 +36,30 @@ int main() {
   int mem_usage = std::stoi(val);
   std::cout << mem_usage << " mem_usage \n";
   delete db;
+
+  leveldb::WriteBatch batch, batch2;
+  size_t empty_size = batch.ApproximateSize();
+
+  batch.Put(leveldb::Slice("foo"), leveldb::Slice("bar"));
+  size_t one_key_size = batch.ApproximateSize();
+  std::cout << empty_size << " empty_size....  \n";
+  std::cout << one_key_size << " one_key_size....  \n";
+
+  batch.Put(leveldb::Slice("baz"), leveldb::Slice("boo"));
+  size_t two_keys_size = batch.ApproximateSize();
+  std::cout << two_keys_size << " two_keys_size....  \n";
+
+  batch.Delete(leveldb::Slice("box"));
+  size_t post_delete_size = batch.ApproximateSize();
+  std::cout << post_delete_size << " post_delete_size....  \n";
+
+  batch2.Append(&batch);
+  std::cout << batch2.ApproximateSize() << " batch2_size....  \n";
+  batch.Clear();
+  std::cout << batch.ApproximateSize() << " batch_size....  \n";
+  batch.Append(&batch2);
+  batch.Append(&batch2);
+  std::cout << batch.ApproximateSize() << " batch_size....  \n";
+
   return 0;
 }

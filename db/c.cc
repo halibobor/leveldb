@@ -365,7 +365,7 @@ void leveldb_writebatch_iterate(const leveldb_writebatch_t* b, void* state,
 
 void leveldb_writebatch_append(leveldb_writebatch_t* destination,
                                const leveldb_writebatch_t* source) {
-  destination->rep.Append(source->rep);
+  destination->rep.Append(&source->rep);
 }
 
 leveldb_options_t* leveldb_options_create() { return new leveldb_options_t; }

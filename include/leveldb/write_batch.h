@@ -67,7 +67,7 @@ class LEVELDB_EXPORT WriteBatch {
   // This runs in O(source size) time. However, the constant factor is better
   // than calling Iterate() over the source batch with a Handler that replicates
   // the operations into this batch.
-  void Append(const WriteBatch& source);
+  void Append(const WriteBatch* source);
 
   // Support for iterating over the contents of a batch.
   Status Iterate(Handler* handler) const;
